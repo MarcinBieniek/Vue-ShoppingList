@@ -27,8 +27,6 @@
           @keyup.enter="saveItem"
         >
 
-        <p class="counter">{{ characterCount }}/200</p>
-
         <label>
           <input type="checkbox" v-model="newItemHighPriority"> Hight Priority
         </label>
@@ -44,7 +42,7 @@
 
         <li 
           @click="togglePurchased(item)"
-          v-for="item in items" 
+          v-for="item in reversedItems" 
           :key="item.id"
           :class="{strikeout: item.purchased, priority: item.highPriority}"
           class="static-class"
@@ -71,8 +69,8 @@
         },
 
         computed: {
-          characterCount(){
-            return this.newItem.length
+          reversedItems(){
+            return [...this.items].reverse()
           }
         },
 
