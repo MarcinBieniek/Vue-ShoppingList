@@ -3,7 +3,7 @@
   <head>
     <meta charset="UFT-8">
     <title>Shopping List App</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" ref="main.css">
   </head>
   <body>
     <div id="shopping-list">
@@ -26,9 +26,6 @@
           placeholder="Add an Item"
           @keyup.enter="saveItem"
         >
-
-        <p class="counter">{{ characterCount }}/200</p>
-
         <label>
           <input type="checkbox" v-model="newItemHighPriority"> Hight Priority
         </label>
@@ -43,11 +40,22 @@
       <ul>
 
         <li 
-          @click="togglePurchased(item)"
           v-for="item in items" 
           :key="item.id"
           :class="{strikeout: item.purchased, priority: item.highPriority}"
           class="static-class"
+          >{{item.label}}
+        </li>
+
+        <li 
+          v-for="item in items" 
+          :key="item.id"
+          :class="[
+            {strikeout: item.purchased}
+            {priority: item.highPriority}
+            'static-class'
+          ]"
+
           >{{item.label}}
         </li>
 
@@ -70,29 +78,14 @@
           }
         },
 
-        computed: {
-          characterCount(){
-            return this.newItem.length
-          }
-        },
-
         methods: {
           saveItem(){
-            this.items.push({
-              id: this.items.length +1, 
-              label: this.newItem,
-              highPriority: this.newItemHighPriority
-            })
+            this.items.push({id: this.items.length +1, label: this.newItem})
             this.newItem = ''
-            this.newItemHighPriority = false
           },
           doEdit(editing){
             this.editing = editing,
             this.newItem = ""
-            this.newItemHighPriority = false
-          },
-          togglePurchased(item){
-            item.purchased = !item.purchased
           }
         },
 
